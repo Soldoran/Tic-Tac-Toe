@@ -3,134 +3,192 @@
 // Board wont update correct
 // Still no logic, no winner / looser
 
-
-void    draw_board(void)
+struct Game board =
 {
-    board.x = 0;
-    while (board.x < 3)
-    {
-        board.y = 0;
-        while (board.y < 3)
-        {
-            printf(" %c ", board.arr[board.x][board.y]);
-            if (board.y != 2)
-                printf("|");
-            if (board.y == 2 && board.x != 2)
-                printf("\n ---------\n");
-            board.y++;
-        }
-        board.x++;
-    }
-    printf("\n");
+	.arr = "123456789\0",
+	.p1 = 'X',
+	.p2 = 'O'
+};
+
+int		draw_board()
+{
+	int	x;
+
+	x = 0;
+	printf("\n");
+	while (x < 9)
+	{
+		while (x < 3)
+		{
+			printf(" %c ", board.arr[x]);
+			if (x < 2)
+				printf("|");
+			x++;
+		}
+		printf("\n ---------\n");
+		while (x < 6)
+		{
+			printf(" %c ", board.arr[x]);
+			if (x < 5)
+				printf("|");
+			x++;
+		}
+		printf("\n ---------\n");
+		while (x < 9)
+		{
+			printf(" %c ", board.arr[x]);
+			if (x < 8)
+				printf("|");
+			x++;
+		}
+	}
+	printf("\n");
+	return (0);
 }
 
-void    init_board(void)
+int		update_board(char c, char play)
 {
-    board.field = 49;
-    board.x = 0;
-    while (board.x < 3)
-    {
-        board.y = 0;
-        while (board.y < 3)
-        {
-            board.arr[board.x][board.y] = board.field;
-            board.y++;
-            board.field++;
-        }
-        board.x++;
-    }
+	for (int x = 0; x < 9; x++)
+	{
+		if (board.arr[x] == play)
+			board.arr[x] = c;
+	}
+	return (0);
 }
 
-int    turn(int c, int play)
+int		check_move(char play)
 {
-    board.x = 0;
-    while (board.x < 3)
-    {
-        board.y = 0;
-        while (board.y< 3)
-        {
-            if (board.arr[board.x][board.y] == play)
-            {
-                board.arr[board.x][board.y] = c;
-                return (1);
-            }
-            board.y++;
-        }
-        board.x++;
-    }
-    return (0);
+	int	x;
+
+	if (play == 'X' || play == 'O')
+		return (0);
+	x = 0;
+	while (x < 9)
+	{
+		if (board.arr[x] == play)
+			return (0);
+		x++;
+	}
+	return (-1);
 }
 
-void    update_board(char c, int play)
+int		check_win()
 {
-    board.x = 0;
-    while (board.x < 3)
-    {
-        board.y = 0;
-        while (board.y < 3)
-        {
-            if (board.arr[board.x][board.y] == play)
-                board.arr[board.x][board.y] = c;
-            board.y++;
-        }
-        board.x++;
-    }
-    draw_board();
+	/*	Rows	*/
+	if (board.arr[0] == board.arr[1] && board.arr[0] == board.arr[2])
+	{
+		if (board.arr[0] == 'X')
+			return (1);	/*	Player 1 won	*/
+		else
+			return (2);	/*	Player 2 won	*/
+	}
+	if (board.arr[3] == board.arr[4] && board.arr[3] == board.arr[5])
+	{
+		if (board.arr[3] == 'X')
+			return (1);
+		else
+			return (2);
+	}
+	if (board.arr[6] == board.arr[7] && board.arr[6] == board.arr[8])
+	{
+		if (board.arr[6] == 'X')
+			return (1);
+		else
+			return (2);
+	}
+	/*	Columns	*/
+	if (board.arr[0] == board.arr[3] && board.arr[0] == board.arr[6])
+	{
+		if (board.arr[0] == 'X')
+			return (1);
+		else
+			return (2);
+	}
+	if (board.arr[1] == board.arr[4] && board.arr[1] == board.arr[7])
+	{
+		if (board.arr[1] == 'X')
+			return (1);
+		else
+			return (2);
+	}
+	if (board.arr[2] == board.arr[5] && board.arr[2] == board.arr[8])
+	{
+		if (board.arr[2] == 'X')
+			return (1);
+		else
+			return (2);
+	}
+	/*	Diagonals	*/
+	if (board.arr[0] == board.arr[4] && board.arr[0] == board.arr[8])
+	{
+		if (board.arr[0] == 'X')
+			return (1);
+		else
+			return (2);
+	}
+	if (board.arr[6] == board.arr[4] && board.arr[6] == board.arr[2])
+	{
+		if (board.arr[6] == 'X')
+			return (1);
+		else
+			return (2);
+	}
+	/*	Tie	*/
+	return (3);
 }
 
-int    play()
+int		play()
 {
-    int play;
+	char	play;
 
-    play = 0;
-    board.p1 = 'X';
-    board.p2 = 'O';
-    board.turn = 1;
-
-    while (board.turn != 10)
-    {
-        if (board.turn % 2 != 0)
-        {
-            printf("It's Player 1's turn. Please choose your field: ");
-            scanf("%d", &play);
-            if (turn(board.p1, play) != 0)
-            {
-                printf("Your move is illegal. You loose!\n");
-                return (1);
-            }
-            update_board(board.p1, play);
-        }
-        else
-        {
-            printf("It's Player 2's turn. Please choose your field: ");
-            scanf("%d", &play);
-            if (turn(board.p2, play) != 0)
-            {
-                printf("Your move is illegal. You loose!\n");
-                return (1);
-            }
-            update_board(board.p2, play);
-        }
-        board.turn++;
-    }
-    return (1);
+	play = ' ';
+	for (int turn = 1; turn < 10; turn++)
+	{
+		if (turn % 2 != 0)
+		{
+			printf("\nIt's Player 1's turn! Please select your next field: ");
+			scanf(" %c", &play);
+			if (check_move(play) < 0)
+			{
+				printf("Illegal Turn! You Lose!\n");
+				return (0);
+			}
+			update_board(board.p1, play);
+			draw_board();
+		}
+		else if (turn % 2 == 0)
+		{
+			printf("\nIt's Player 2's turn! Please select your next field: ");
+			scanf(" %c", &play);
+			if (check_move(play) != 0)
+			{
+				printf("Illegal Turn! You Lose!\n");
+				return (0);
+			}
+			update_board(board.p2, play);
+			draw_board();
+		}
+		if (check_win() == 1)
+			return (1);
+		if (check_win() == 2)
+			return (2);
+	}
+	return (3);
 }
 
-int main()
+int		main()
 {
-    char replay;
-
-    replay = 'Y';
-    while (replay == 'Y' || replay == 'y')
-    {
-        init_board();
-        draw_board();
-        if (play() == 1)
-        {
-            printf("Play Again? [Type 'Y' if yes] ");
-            scanf("%c", &replay);
-        }
-    }
-    printf("Thanks for Playing!\n");
-    return (0);
+	int	won;
+	draw_board();
+	won = play();
+	if (won == 3)
+		printf("It's a tie!\n");
+	else if (won == 2)
+		printf("Player 2 won!\n");
+	else if (won == 1)
+		printf("Player 1 won!\n");
+	else
+		printf("An error occured!\n");
+	printf("Thanks for playing!\n");
+	return (0);
 }

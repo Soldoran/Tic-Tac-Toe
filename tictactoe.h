@@ -5,18 +5,9 @@
 
 struct Game
 {
-    /*  Board   */
-    int x;
-    int y;
-    int field;
-    int arr[3][3];
-
-    /*  Players */
-    int     turn;
-    char    p1;
-    char    p2;
+	char 	arr[10];
+	char    p1;
+	char    p2;
 };
-
-struct Game board;
 
 #endif
