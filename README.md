@@ -1,6 +1,7 @@
 ## Table of Contents
 * [About this project](#about-this-project)
 * [What did I learn](#what-did-i-learn)
+* [Why a header file?](#why-a-header-file?)
 * [Compiled with](#compiled-with)
 * [Worked with](#worked-with)
 
@@ -18,6 +19,9 @@ if it's even posssible) that I will have to use a normal array.
 
 Also I learned more about the **scanf** and about its weird behaviors.
 On my research on an occuring problem, the most common answer was to use fgets and sscanf instead.
+
+## Why a header file?
+While a own header file is not necessary for a project of this scope, I still decided to create and use one, to force myself more, to work or rather create header files and to start to make it a kind of habit of mine.
 
 ## Compiled with
 ```
