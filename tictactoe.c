@@ -178,7 +178,7 @@ int		play()
 
 int		main()
 {
-	int	won;
+	int		won;
 	draw_board();
 	won = play();
 	if (won == 3)
@@ -189,6 +189,7 @@ int		main()
 		printf("Player 1 won!\n");
 	else
 		printf("An error occured!\n");
-	printf("Thanks for playing!\n");
+	printf("Thanks for playing!\nThis window will close in 5 seconds");
+	sleep(5);
 	return (0);
 }

@@ -2,6 +2,7 @@
 # define TICTACTOE_H
 
 # include "stdio.h"
+# include "unistd.h"
 
 struct Game
 {
